@@ -1,0 +1,36 @@
+
+<html>
+	<title>Geocode Adress to Lat Long Converter</title>
+	<head> 
+	<script src ="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAuxZGmxXNlqeSSkgVCJbfgortkJpN2xw"></script>
+	</head>
+	<body>
+	<script>
+	var processed = [];
+	var geocoder = new google.maps.Geocoder();
+	var adressData = [{"city":"El Reno","state":"OK","country":"US"}, {"city":"TARTAGAL - PROVINCIA DE SALTA","state":"","country":"AR"}];
+	
+
+	for(var i = 0; i < adressData.length; i++){
+		geocodeAddress(geocoder, adressData[i]);
+	}
+	
+	function geocodeAddress(geocoder, address) { 
+		var addressparam = { address: address.city + '+' +address.state + '+' + address.country };
+		geocoder.geocode( addressparam , function(results, status){
+		if (status == 'OK'){
+			var tempAdress = {
+				city : address.city,
+				state : address.state,
+				country : address.country,
+				lat : results[0].geometry.location.lat(),
+				lng : results[0].geometry.location.lng()
+			};
+			processed.push(tempAdress);
+			} else {console.log('Geocode was not successful : ' + status);}
+		}
+	)};
+	console.log(processed);
+	</script>
+	</body>
+</html>
